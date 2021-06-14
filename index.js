@@ -128,15 +128,14 @@ const addRole = () => {
 			},
 		])
 		.then((response) => {
-			console.log(response)
+			console.log(response);
 			db.query(
 				`INSERT INTO role(title, salary, department_id) VALUES (?, ?, ?)`,
 				[
 					response.addNewRole,
 					response.payRollAmt,
-					response.deptList.length 
-					//broke fix dept_id 
-					
+					response.deptList.length,
+					//broke fix dept_id
 				],
 				// console.log(response.deptList),
 				(err, data) => {
@@ -155,7 +154,7 @@ const addEmployee = async () => {
 		map[currentItem.title] = currentItem.id;
 		return map;
 	}, {});
-	
+
 	const manager = await db.promise().query(`SELECT manager_id FROM employee`);
 	const managerArr = manager[0].map((employee) => employee.manager_id);
 	const managerMap = manager[0].reduce((map, currentItem) => {
@@ -208,7 +207,15 @@ const updateEmployeeRole = async () => {
 	let employeeList = employee[0].map((employeeName) => employeeName.last_name);
 	let roleUpdate = await db.promise().query(`SELECT * FROM role`);
 	let roleChoice = roleUpdate[0].map((role) => role.title);
-	// console.log(roleUpdate)
+	// let roleId = roleUpdate[0].map((role) => role.id);
+	const roles = await db.promise().query(`SELECT * FROM role`);
+	// const roleArr = roles[0].map((role) => role.title);
+	const roleMap = roles[0].reduce((map, currentItem) => {
+		map[currentItem.title] = currentItem.id;
+		return map;
+	}, {});
+	//gamechanger => ROLEMAP!
+	// console.log(roleMap);
 	inquirer
 		.prompt([
 			{
@@ -225,24 +232,15 @@ const updateEmployeeRole = async () => {
 			},
 		])
 		.then((response) => {
-			const query = `SELECT * FROM role`;
-
-			db.query(query, (err, res) => {
-				if (err) throw err;
-				res.map(role => {
-					console.log(role)
-				})
-				
-			});
-			// console.log(response.employeeRoleUpdate)
-
-			// db.promise().query(
-			// 	`UPDATE employee SET role_id = ? WHERE last_name = ?`,
-			// 	[response.roleChoice, response.employeeName],
-			// 	(err, data) => {
-			// 		if (err) throw err;
-			// 		console.table(data);
-			// 	}
-			// );
+			const roleId = roleMap[response.employeeRoleUpdate];
+			db.query(
+				`UPDATE employee SET role_id = ? WHERE last_name = ?`,
+				[roleId, response.employeeName],
+				(err, data) => {
+					if (err) throw err;
+					console.table(data);
+					startApp();
+				}
+			);
 		});
 };
