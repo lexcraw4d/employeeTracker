@@ -22,7 +22,7 @@ VALUES
 INSERT INTO employee  (first_name, last_name, role_id, manager_id)
 VALUES
 ('Tony', 'Soprano', 1, 1),
-('Christopher', 'Moltisanti', 2, 1),
-('Carmela', 'Soprano', 2, 1),
-('Tony', 'Blundetto', 3, 1),
-('Paulie', 'Gualtieri', 4, 1);
+('Christopher', 'Moltisanti', 2, 2),
+('Carmela', 'Soprano', 2, 3),
+('Tony', 'Blundetto', 3, 4),
+('Paulie', 'Gualtieri', 4, 5);
