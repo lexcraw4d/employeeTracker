@@ -1,8 +1,6 @@
 const inquirer = require('inquirer');
 const db = require('./db/connection');
 
-
-
 async function startApp() {
 	departmentList();
 
@@ -111,14 +109,14 @@ const addDept = () => {
 		});
 };
 
-const addRole = async() => {
+const addRole = async () => {
 	const addRole = await db.promise().query(`SELECT * FROM department`);
 	const deptMap = addRole[0].reduce((map, currentItem) => {
 		map[currentItem.name] = currentItem.id;
 		return map;
 	}, {});
 	// console.log(deptMap)
-	
+
 	inquirer
 		.prompt([
 			{
@@ -142,12 +140,7 @@ const addRole = async() => {
 			// console.log(departmentId)
 			db.query(
 				`INSERT INTO role(title, salary, department_id) VALUES (?, ?, ?)`,
-				[
-					response.addNewRole,
-					response.payRollAmt,
-					departmentId,
-					
-				],
+				[response.addNewRole, response.payRollAmt, departmentId],
 				// console.log(response.deptList),
 				(err, data) => {
 					if (err) throw err;
@@ -208,6 +201,7 @@ const addEmployee = async () => {
 						throw err;
 					}
 					console.log(data);
+					startApp();
 				}
 			);
 		});
