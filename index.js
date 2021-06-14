@@ -64,15 +64,6 @@ function departmentList() {
 	});
 	return listOfDepartments;
 }
-// function employeeList () {
-// 	let employees = [];
-// 	db.query(`SELECT * FROM employee`, (err, data) => {
-// 		data.forEach((employee) => {
-// 			employees.push(employee);
-// 		});
-// 	});
-// 	return employees;
-// }
 
 //Later seperation of concerns into another folder these fx
 const viewDept = () => {
@@ -137,14 +128,15 @@ const addRole = () => {
 			},
 		])
 		.then((response) => {
-			console.log(response.deptList);
+			console.log(response)
 			db.query(
 				`INSERT INTO role(title, salary, department_id) VALUES (?, ?, ?)`,
 				[
 					response.addNewRole,
 					response.payRollAmt,
-					listOfDepartments.indexOf(response.deptList) + 1,
-					//added +1 here because the index is off by one from the id e.g. sales index is '0' and the id is '1'
+					response.deptList.length 
+					//broke fix dept_id 
+					
 				],
 				// console.log(response.deptList),
 				(err, data) => {
@@ -158,14 +150,13 @@ const addRole = () => {
 
 const addEmployee = async () => {
 	const roles = await db.promise().query(`SELECT * FROM role`);
-	const manager = await db.promise().query(`SELECT manager_id FROM employee`);
-
 	const roleArr = roles[0].map((role) => role.title);
 	const roleMap = roles[0].reduce((map, currentItem) => {
 		map[currentItem.title] = currentItem.id;
 		return map;
 	}, {});
-
+	
+	const manager = await db.promise().query(`SELECT manager_id FROM employee`);
 	const managerArr = manager[0].map((employee) => employee.manager_id);
 	const managerMap = manager[0].reduce((map, currentItem) => {
 		map[currentItem.manager_id] = currentItem.manager_id;
@@ -213,38 +204,45 @@ const addEmployee = async () => {
 };
 
 const updateEmployeeRole = async () => {
-	let employee = await db.promise().query(`SELECT first_name FROM employee`);
-	let employeeList = employee[0].map((employeeName) => employeeName.first_name);
+	let employee = await db.promise().query(`SELECT last_name FROM employee`);
+	let employeeList = employee[0].map((employeeName) => employeeName.last_name);
 	let roleUpdate = await db.promise().query(`SELECT * FROM role`);
-	let roleChoice = roleUpdate[0].map(role => role.title );
+	let roleChoice = roleUpdate[0].map((role) => role.title);
 	// console.log(roleUpdate)
-	inquirer.prompt([
-		{
-			name: 'employeeName',
-			message: 'Please choose an employee to update.',
-			type: 'list',
-			choices: employeeList,
-		},
-		{
-			name: 'employeeRoleUpdate',
-			message: 'Please select their new role.',
-			type: 'list',
-			choices: roleChoice
-		}
-		
-	])
-.then( (response) => {
-	console.log(response)
-	startApp();
-	}
+	inquirer
+		.prompt([
+			{
+				name: 'employeeName',
+				message: 'Please choose an employee (by last name) to update.',
+				type: 'list',
+				choices: employeeList,
+			},
+			{
+				name: 'employeeRoleUpdate',
+				message: 'Please select their new role.',
+				type: 'list',
+				choices: roleChoice,
+			},
+		])
+		.then((response) => {
+			const query = `SELECT * FROM role`;
 
-	//response = job name
-	//job name = id
-	// db.promise().query(`UPDATE employee SET role_id = ? WHERE first_name = ?`,
-	// [
-	// 	3,
-	// 	"response.employeeName"
-	// ]
-	
-)
-}
+			db.query(query, (err, res) => {
+				if (err) throw err;
+				res.map(role => {
+					console.log(role)
+				})
+				
+			});
+			// console.log(response.employeeRoleUpdate)
+
+			// db.promise().query(
+			// 	`UPDATE employee SET role_id = ? WHERE last_name = ?`,
+			// 	[response.roleChoice, response.employeeName],
+			// 	(err, data) => {
+			// 		if (err) throw err;
+			// 		console.table(data);
+			// 	}
+			// );
+		});
+};
