@@ -245,6 +245,7 @@ const updateEmployeeRole = async () => {
 		])
 		.then((response) => {
 			const roleId = roleMap[response.employeeRoleUpdate];
+			
 			db.query(
 				`UPDATE employee SET role_id = ? WHERE last_name = ?`,
 				[roleId, response.employeeName],

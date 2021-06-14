@@ -10,21 +10,20 @@
 
 # About
 
-The Employee Tracker Application was designed to allow business owner's to run the command line interface to view and manage departments, roles, and employees within their company so they can better organize and plan their business . 
+The Employee Tracker Application was designed to allow business owner's to run the command line interface to view and manage departments, roles, and employees within their company so they can better organize and plan their business .
 The user is able to track their employees by: department, role, and employees.
 The Employee Tracker App was created using [Visual Studio Code](https://code.visualstudio.com/), [Node.js](https://nodejs.org/en/),[Node Package Manager (npm)](https://www.npmjs.com/), [mySQL](https://www.mysql.com/) and [Express](https://expressjs.com/).
-Please visit [this video](https://drive.google.com/file/d/18LElEEGNcdh0U_lq7Psx63QmiKYT7guF/view?usp=sharing) for a live demonstration, since the Employee Tracker is  is made via the command line.
+Please visit [this video](https://drive.google.com/file/d/1unjm4LfoMqxqVHvfMI4zWN80Hh9O7V_O/view) for a live demonstration, since the Employee Tracker is is made via the command line.
 ![](assets/photos/schema.png)
 
-
 # Installation
-![EmployeeMgr App](assets/photos/deployedappbeginning.JPG)
+
+![](assets/photos/deployedappbeginning.JPG)
 To install please visit [my repository](https://github.com/lexcraw4d/employeeTracker) and look at the uploaded files via GitHub Deployment. You may fork my repository and download [Node.js](https://nodejs.org/en/) Additionally, you will need [Visual Studio Code](https://code.visualstudio.com/), [npm](https://www.npmjs.com/), and [Express](https://www.npmjs.com/package/express).The details of how to implement these are provided in the [Usage](#Usage) section below.
 
 # Usage
 
 ![](assets/photos/inaction.JPG)!
-
 
 ##### Visual Studio Code
 
@@ -41,6 +40,7 @@ Node.js was used in combination with VSC. Node.js allows the user to interact wi
 ![](assets/photos/node.JPG)
 
 ### npm and Express
+
 [npm](https://www.npmjs.com/package/inquirer) was used in combination with [Express](https://expressjs.com/) to create a backend middleware server. Express is a flexible Node.js application frameworke that provides many features available for both mobile and the web. Please click the referenced information for documentation on npm and Express.
 
 ![](assets/photos/npm.JPG)
