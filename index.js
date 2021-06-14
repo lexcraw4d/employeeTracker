@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
 const db = require('./db/connection');
 
+
+
 async function startApp() {
 	departmentList();
 
@@ -109,7 +111,14 @@ const addDept = () => {
 		});
 };
 
-const addRole = () => {
+const addRole = async() => {
+	const addRole = await db.promise().query(`SELECT * FROM department`);
+	const deptMap = addRole[0].reduce((map, currentItem) => {
+		map[currentItem.name] = currentItem.id;
+		return map;
+	}, {});
+	// console.log(deptMap)
+	
 	inquirer
 		.prompt([
 			{
@@ -128,14 +137,16 @@ const addRole = () => {
 			},
 		])
 		.then((response) => {
-			console.log(response);
+			const departmentName = response.deptList;
+			let departmentId = deptMap[departmentName];
+			// console.log(departmentId)
 			db.query(
 				`INSERT INTO role(title, salary, department_id) VALUES (?, ?, ?)`,
 				[
 					response.addNewRole,
 					response.payRollAmt,
-					response.deptList.length,
-					//broke fix dept_id
+					departmentId,
+					
 				],
 				// console.log(response.deptList),
 				(err, data) => {
@@ -149,7 +160,7 @@ const addRole = () => {
 
 const addEmployee = async () => {
 	const roles = await db.promise().query(`SELECT * FROM role`);
-	const roleArr = roles[0].map((role) => role.title);
+	const deptArr = roles[0].map((role) => role.title);
 	const roleMap = roles[0].reduce((map, currentItem) => {
 		map[currentItem.title] = currentItem.id;
 		return map;
@@ -176,7 +187,7 @@ const addEmployee = async () => {
 				name: 'employeeRole',
 				text: 'Please enter the new employee role.',
 				type: 'list',
-				choices: roleArr,
+				choices: deptArr,
 			},
 			{
 				name: 'employeeMgr',
@@ -209,7 +220,7 @@ const updateEmployeeRole = async () => {
 	let roleChoice = roleUpdate[0].map((role) => role.title);
 	// let roleId = roleUpdate[0].map((role) => role.id);
 	const roles = await db.promise().query(`SELECT * FROM role`);
-	// const roleArr = roles[0].map((role) => role.title);
+	// const deptArr = roles[0].map((role) => role.title);
 	const roleMap = roles[0].reduce((map, currentItem) => {
 		map[currentItem.title] = currentItem.id;
 		return map;
