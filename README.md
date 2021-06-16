@@ -12,7 +12,7 @@
 
 The Employee Tracker Application was designed to allow business owner's to run the command line interface to view and manage departments, roles, and employees within their company so they can better organize and plan their business .
 The user is able to track their business databases by: departments, roles, and employees.
-The Employee Tracker App was created using [Visual Studio Code](https://code.visualstudio.com/), [Node.js](https://nodejs.org/en/),[Node Package Manager (npm)](https://www.npmjs.com/), [mySQL](https://www.mysql.com/) and [Express](https://expressjs.com/).
+The Employee Tracker App was created using [Visual Studio Code](https://code.visualstudio.com/), [Node.js](https://nodejs.org/en/),[Node Package Manager (npm)](https://www.npmjs.com/), [mySQL](https://www.mysql.com/),[Express](https://expressjs.com/), and [Inquirer](https://www.npmjs.com/package//inquirer).
 Please visit [this video](https://drive.google.com/file/d/1unjm4LfoMqxqVHvfMI4zWN80Hh9O7V_O/view) for a live demonstration, since the Employee Tracker is is made via the command line.
 ![](assets/photos/schema.png)
 
